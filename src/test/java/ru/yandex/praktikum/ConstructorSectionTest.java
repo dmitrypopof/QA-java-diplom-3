@@ -42,7 +42,7 @@ public class ConstructorSectionTest {
         MainPageConstructorSectionStellar pageSection = new MainPageConstructorSectionStellar(driver);
         pageSection.selectSectionConstructorFiling();
         Boolean excepted = true;
-        Boolean actual = pageSection.checkTitleBun();
+        Boolean actual = pageSection.checkTitleFiling();
         Assert.assertEquals(excepted,actual);
     }
 
@@ -54,7 +54,7 @@ public class ConstructorSectionTest {
         pageSection.selectSectionConstructorSauce();
         pageSection.selectSectionConstructorBun();
         Boolean excepted = true;
-        Boolean actual = pageSection.checkTitleFiling();
+        Boolean actual = pageSection.checkTitleBun();
         Assert.assertEquals(excepted,actual);
     }
 
@@ -63,5 +63,4 @@ public class ConstructorSectionTest {
     public void setEnd(){
         driver.quit();
     }
-
 }
