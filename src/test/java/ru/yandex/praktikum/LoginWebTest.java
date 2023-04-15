@@ -6,24 +6,17 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import ru.yandex.praktikum.model.MainPageDeleteStellar;
 import ru.yandex.praktikum.model.MainPageLoginStellar;
 import ru.yandex.praktikum.model.MainPageRegistrationStellar;
 import ru.yandex.praktikum.model.MainPageUserData;
 
-public class LoginWebTest {
-    private WebDriver driver;
+public class LoginWebTest extends BaseTest {
 
     @Before
     @DisplayName("Предусловие. Создать пользователя")
     public void setUp() {
-
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/yandexdriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-
+        super.setUp();
         MainPageRegistrationStellar page = new MainPageRegistrationStellar(driver);
         MainPageLoginStellar pageLogin = new MainPageLoginStellar(driver);
         page.open();
@@ -35,26 +28,26 @@ public class LoginWebTest {
         page.clickButtonRegistrationByFullFolder();
         pageLogin.waitForLoadEntrance();
         page.transitionMainPage();
-
     }
+
     @After
     @DisplayName("Постусловие.Удаление пользователя")
-    public void setEnd(){
+    public void cleanUp() {
         MainPageRegistrationStellar page = new MainPageRegistrationStellar(driver);
         MainPageLoginStellar pageLogin = new MainPageLoginStellar(driver);
         MainPageDeleteStellar pageDelete = new MainPageDeleteStellar(driver);
         page.open();
-
         page.transitionMainPage();
         try {
-        page.clickButtonPersonalAccount();
-        pageLogin.inputEmailLoginAccount(MainPageUserData.LOGIN);
-        pageLogin.inputPasswordLoginAccount(MainPageUserData.PASSWORD);
-        pageLogin.clickLoginInAccount();}catch (Exception e){}
-
+            page.clickButtonPersonalAccount();
+            pageLogin.inputEmailLoginAccount(MainPageUserData.LOGIN);
+            pageLogin.inputPasswordLoginAccount(MainPageUserData.PASSWORD);
+            pageLogin.clickLoginInAccount();
+        } catch (Exception e) {
+        }
         pageLogin.waitForInvisibilityLoadingAnimation();
         String accessToken = pageDelete.getTokenAccess();
-        if (accessToken!= null) {
+        if (accessToken != null) {
             pageDelete.deleteUserStellar(accessToken);
         }
         driver.quit();
@@ -63,10 +56,9 @@ public class LoginWebTest {
     @Test
     @DisplayName("Вход по кнопке Войти в аккаунт ")
     @Description("С главной страницы")
-    public void LoginInAccountMainPage(){
+    public void loginInAccountMainPage() {
         MainPageRegistrationStellar page = new MainPageRegistrationStellar(driver);
         MainPageLoginStellar pageLogin = new MainPageLoginStellar(driver);
-
         pageLogin.clickButtonEntranceMainPage();
         pageLogin.inputEmailLoginAccount(MainPageUserData.LOGIN);
         pageLogin.inputPasswordLoginAccount(MainPageUserData.PASSWORD);
@@ -74,33 +66,31 @@ public class LoginWebTest {
         String actual = pageLogin.getTextPlaceOnOrder();
         System.out.println(actual);
         String excepted = "Оформить заказ";
-        Assert.assertEquals(excepted,actual);
+        Assert.assertEquals(excepted, actual);
     }
+
     @Test
     @DisplayName("Вход по кнопке Войти в аккаунт через личный кабинет ")
     @Description("Вход через личный кабинет")
-    public void LoginInAccount(){
+    public void loginInAccount() {
         MainPageRegistrationStellar page = new MainPageRegistrationStellar(driver);
         MainPageLoginStellar pageLogin = new MainPageLoginStellar(driver);
-
         page.clickButtonPersonalAccount();
         pageLogin.inputEmailLoginAccount(MainPageUserData.LOGIN);
         pageLogin.inputPasswordLoginAccount(MainPageUserData.PASSWORD);
         pageLogin.clickLoginInAccount();
-
         String actual = pageLogin.getTextPlaceOnOrder();
         System.out.println(actual);
         String excepted = "Оформить заказ";
-        Assert.assertEquals(excepted,actual);
+        Assert.assertEquals(excepted, actual);
     }
 
     @Test
     @DisplayName("Вход через кнопку в форме регистрации")
     @Description("Через форму регистрации, после того как нажать зарегистрировать")
-    public void loginThroughFormRegistration(){
+    public void loginThroughFormRegistration() {
         MainPageRegistrationStellar page = new MainPageRegistrationStellar(driver);
         MainPageLoginStellar pageLogin = new MainPageLoginStellar(driver);
-
         pageLogin.clickButtonPersonalAccount();
         page.clickButtonPersonalAccountRegistration();
         pageLogin.clickButtonRegAfterPersonalAccount();
@@ -110,16 +100,15 @@ public class LoginWebTest {
         String actual = pageLogin.getTextPlaceOnOrder();
         System.out.println(actual);
         String excepted = "Оформить заказ";
-        Assert.assertEquals(excepted,actual);
+        Assert.assertEquals(excepted, actual);
     }
 
     @Test
     @DisplayName("Вход через кнопку в форме восстановления пароля")
     @Description("Нажать войти -> Восстановить пароль")
-    public void loginThroughRecoveryPassword(){
+    public void loginThroughRecoveryPassword() {
         MainPageRegistrationStellar page = new MainPageRegistrationStellar(driver);
         MainPageLoginStellar pageLogin = new MainPageLoginStellar(driver);
-
         pageLogin.clickButtonEntranceMainPage();
         pageLogin.clickResoveryPassword();
         pageLogin.clickEntranceAfterClickRecoveryPassword();
@@ -129,6 +118,6 @@ public class LoginWebTest {
         String actual = pageLogin.getTextPlaceOnOrder();
         System.out.println(actual);
         String excepted = "Оформить заказ";
-        Assert.assertEquals(excepted,actual);
+        Assert.assertEquals(excepted, actual);
     }
 }

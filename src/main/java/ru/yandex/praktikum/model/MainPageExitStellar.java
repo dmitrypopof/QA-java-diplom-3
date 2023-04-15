@@ -21,14 +21,14 @@ public class MainPageExitStellar {
     }
 
     @Step("Клик по Выход (из акаунта)")
-    public void clickExitAccount(){
+    public void clickExitAccount() {
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.elementToBeClickable(BUTTON_EXIT));
         driver.findElement(BUTTON_EXIT).click();
     }
 
     @Step("Получение текста надписи с кнопки Вход")
-    public String getTextButtonEntrance (){
+    public String getTextButtonEntrance() {
         return driver.findElement(BUTTON_ENTRANCE).getText();
     }
 }

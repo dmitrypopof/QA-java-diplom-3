@@ -8,19 +8,22 @@ import org.openqa.selenium.html5.WebStorage;
 
 public class MainPageDeleteStellar {
     private final WebDriver driver;
-    public MainPageDeleteStellar (WebDriver driver){
+
+    public MainPageDeleteStellar(WebDriver driver) {
         this.driver = driver;
     }
+
     @Step("Получить accessToken из Local Storage")
-    public String getTokenAccess(){
+    public String getTokenAccess() {
         LocalStorage localStorage = ((WebStorage) driver).getLocalStorage();
         String accessTokenWithBearer = localStorage.getItem("accessToken");
         String accessToken = accessTokenWithBearer.replace("Bearer ", "");
         System.out.println(accessToken);
         return accessToken;
     }
+
     @Step("Отправка HTTP-запроса на удаление пользователя")
-    public void deleteUserStellar(String accessToken){
+    public void deleteUserStellar(String accessToken) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
         String url = MainPageUserData.URL_DELETE_REQUEST;
         String authHeader = "Authorization: " + accessToken;
